@@ -33,7 +33,7 @@ async function editHotel(id, hotelData) {
 }
 
 
-async function bookHotel(hotelId, userId){
+async function bookHotel(hotelId, userId) {
     const hotel = await Hotel.findById(hotelId);
     const user = await User.findById(userId);
 
@@ -46,10 +46,15 @@ async function bookHotel(hotelId, userId){
     return Promise.all([user.save(), hotel.save()]);
 }
 
+async function deleteHotel(id) {
+    return Hotel.findByIdAndDelete(id);
+}
+
 module.exports = {
     createHotel,
     getAllHotels,
     getHotelById,
     editHotel,
-    bookHotel
+    bookHotel,
+    deleteHotel
 }

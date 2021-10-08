@@ -120,11 +120,29 @@ router.get('/book/:id', isUser(), async (req, res) => {
 
 
         await req.storage.bookHotel(req.params.id, req.user._id);
-        
+
         res.redirect('/hotels/details/' + req.params.id);
     } catch (err) {
         console.log(err.message);
         res.redirect('/');
+    }
+});
+
+router.get('/delete/:id', isUser(), async (req, res) => {
+    try {
+        const hotel = await req.storage.getHotelById(req.params.id);
+
+        console.log(hotel, req.user);
+        if (hotel.owner != req.user._id) {
+            throw new Error('Cannot delete play you have\'nt created');
+        }
+
+        await req.storage.deleteHotel(req.params.id);
+        res.redirect('/')
+
+    } catch (err) {
+        console.log(err.message);
+
     }
 });
 
