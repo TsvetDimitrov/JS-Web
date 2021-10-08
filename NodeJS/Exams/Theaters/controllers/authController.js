@@ -28,7 +28,7 @@ router.post('/register',
 
                 throw new Error(errors.map(e => e.msg).join('\n'));
             }
-            await req.auth.register(req.body.username, req.body.password);
+            await req.auth.register(req.body.username.trim(), req.body.password.trim());
 
             res.redirect('/');
         } catch (err) {
@@ -49,7 +49,7 @@ router.get('/login', isGuest(), (req, res) => {
 
 router.post('/login', isGuest(), async (req, res) => {
     try {
-        await req.auth.login(req.body.username, req.body.password);
+        await req.auth.login(req.body.username.trim(), req.body.password.trim());
 
         res.redirect('/');
     } catch (err) {

@@ -30,9 +30,9 @@ async function createPlay(playData) {
 async function editPlay(id, playData) {
     const play = await Play.findById(id);
 
-    play.title = playData.title;
-    play.description = playData.description;
-    play.imageUrl = playData.imageUrl;
+    play.title = playData.title.trim();
+    play.description = playData.description.trim();
+    play.imageUrl = playData.imageUrl.trim();
     play.public = Boolean(playData.public);
 
     return play.save();
