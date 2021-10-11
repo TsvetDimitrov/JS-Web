@@ -9,6 +9,7 @@ router.get('/register', isGuest(), (req, res) => {
 
 router.post('/register',
     isGuest(),
+    body('name').matches(/^[A-Z][a-z]+\s[A-Z][a-z]+$/).withMessage('Name not content the correct sign'),
     body('username').isLength({ min: 3 }).withMessage('Username must be atleast 3 characters long!'),
     body('rePass').custom((value, { req }) => {
         console.log(value);
@@ -21,7 +22,8 @@ router.post('/register',
         const { errors } = validationResult(req);
         try {
             if (errors.length > 0) {
-                throw new Error('Validation error');
+                const message = errors.map(e => e.msg).join('\n');
+                throw new Error(message);
             }
             await req.auth.register(req.body.name, req.body.username, req.body.password);
 
@@ -29,9 +31,10 @@ router.post('/register',
         } catch (err) {
             console.log(err);
             const ctx = {
-                errors,
+                errors: err.message.split('\n'),
                 userData: {
-                    username: req.body.username
+                    username: req.body.username,
+                    name: req.body.name
                 }
             }
             res.render('register', ctx);
@@ -55,7 +58,7 @@ router.post('/login', isGuest(), async (req, res) => {
                 username: req.body.username
             }
         }
-    res.render('login', ctx);
+        res.render('login', ctx);
 
     }
 
