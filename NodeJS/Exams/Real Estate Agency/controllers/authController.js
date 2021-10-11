@@ -11,6 +11,7 @@ router.post('/register',
     isGuest(),
     body('username').isLength({ min: 3 }).withMessage('Username must be atleast 3 characters long!'),
     body('rePass').custom((value, { req }) => {
+        console.log(value);
         if (value != req.body.password) {
             throw new Error('Passwords don\'t match');
         }
@@ -22,7 +23,7 @@ router.post('/register',
             if (errors.length > 0) {
                 throw new Error('Validation error');
             }
-            await req.auth.register(req.body.username, req.body.password);
+            await req.auth.register(req.body.name, req.body.username, req.body.password);
 
             res.redirect('/');
         } catch (err) {
