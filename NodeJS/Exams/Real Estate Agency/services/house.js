@@ -1,8 +1,11 @@
 const House = require('../models/House');
 const User = require('../models/User');
 
-async function createHouse() {
+async function createHouse(houseData) {
+    const house = new House(houseData);
+    await house.save();
 
+    return house;
 }
 
 async function getAllHouses() {
