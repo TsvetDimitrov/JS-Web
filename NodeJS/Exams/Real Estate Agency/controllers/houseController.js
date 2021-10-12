@@ -100,4 +100,19 @@ router.post('/edit/:id', isUser(), async (req, res) => {
     }
 });
 
+router.get('/delete/:id', isUser(), async (req, res) => {
+    try {
+        const house = await req.storage.getHouseById(req.params.id);
+
+        if (house.owner != req.user._id) {
+            throw new Error('Cannot delete play you have\'nt created');
+        }
+
+        await req.storage.deleteHouse(req.params.id);
+        res.redirect('/');
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 module.exports = router;
