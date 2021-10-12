@@ -51,6 +51,8 @@ async function login(username, password) {
         throw new Error('Incorrect password!');
     }
 
+    console.log(user);
+
     return generateToken(user);
 }
 
@@ -59,7 +61,7 @@ function generateToken(userData) {
         _id: userData._id,
         username: userData.username,
         name: userData.name,
-
+        bookedHouses: userData.bookedHouses
     }, TOKEN_SECRET);
 }
 
@@ -71,9 +73,11 @@ function parseToken(req, res) {
         try {
             const userData = jwt.verify(token, TOKEN_SECRET);
             req.user = userData;
+            res.locals.user = userData;
 
             return true;
         } catch (err) {
+            console.log(err);
             res.clearCookie(COOKIE_NAME);
             res.redirect('/auth/login');
             return false;
