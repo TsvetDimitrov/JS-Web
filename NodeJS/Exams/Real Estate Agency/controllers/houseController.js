@@ -47,7 +47,22 @@ router.post('/create', isUser(), async (req, res) => {
             }
         }
         res.render('house/create', ctx);
+    }
+});
 
+router.get('/details/:id', async (req, res) => {
+    try {
+
+        const house = await req.storage.getHouseById(req.params.id);
+
+        house.hasUser = Boolean(req.user);
+        house.isAuthor = req.user && req.user._id == house.owner;
+        house.isRented = req.user && house.rentedBy.find(x => x == req.user._id);
+
+        res.render('house/details', { house });
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/404');
     }
 });
 
