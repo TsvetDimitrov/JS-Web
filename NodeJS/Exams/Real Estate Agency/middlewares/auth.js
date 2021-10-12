@@ -54,15 +54,12 @@ async function login(username, password) {
     return generateToken(user);
 }
 
-function logout() {
-
-}
-
-
 function generateToken(userData) {
     return jwt.sign({
         _id: userData._id,
-        username: userData.username
+        username: userData.username,
+        name: userData.name,
+
     }, TOKEN_SECRET);
 }
 

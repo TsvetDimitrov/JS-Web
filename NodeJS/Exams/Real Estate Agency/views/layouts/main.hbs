@@ -23,15 +23,18 @@
     <nav>
         <a href="/">Home</a>
         <ul>
+            <li><a href="/">Housing for rent</a></li>
+            {{#if user}}
+            <!-- Logged users -->
+            <li><a href="/houses/create">Create offer</a></li>
+            <li><a href="#">Search</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
             <!-- Guest users and Logged users -->
-            <li><a href="#">Housing for rent</a></li>
+            {{else}}
             <!-- Guest users -->
             <li><a href="/auth/login">Login</a></li>
             <li><a href="/auth/register">Register</a></li>
-            <!-- Logged users -->
-            <li><a href="#">Create offer</a></li>
-            <li><a href="#">Search</a></li>
-            <li><a href="/auth/logout">Logout</a></li>
+            {{/if}}
         </ul>
     </nav>
 
