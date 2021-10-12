@@ -14,7 +14,7 @@
 
                     <!-- if there are already tenants of the housing, separate their names with a comma and a space ", "  -->
                     {{#if house.isRented}}
-                    <p>People rented this housing: 
+                    <p>People rented this housing:
                         {{#each house.rentedBy}}
                         {{this}}
                         {{/each}}
@@ -36,13 +36,15 @@
 
                 <!-- logged in user with available pieces-->
                 {{#if house.pieces}}
-                <a href="#" class="rentHome">Rent a home, available 2 housing</a>
+                {{#if house.isRented}}
+                <p class="alRentHome">You have already rent this home</p>
+                {{else}}
+                <a href="/houses/book/{{house._id}}" class="rentHome">Rent a home, available {{house.pieces}} housing</a>
+                {{/if}}
                 {{else}}
                 <p class="no-housing">No Housing Available!</p>
                 {{/if}}
-                {{#if house.isBooked}}
-                <p class="alRentHome">You have already rent this home</p>
-                {{/if}}
+
                 {{/if}}
                 <!-- logged in user with no available pieces-->
 

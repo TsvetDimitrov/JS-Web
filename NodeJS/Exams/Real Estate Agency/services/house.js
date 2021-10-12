@@ -39,6 +39,18 @@ async function deleteHouse(id) {
     return House.findByIdAndDelete(id);
 }
 
+async function bookHouse(houseId, userId) {
+    const house = await House.findById(houseId);
+    const user = await User.findById(userId);
+
+    if (house.owner == user._id) {
+        throw new Error('Cannot book your own house!');
+    }
+
+    user.bookedHouses.push(houseId);
+    house.rentedBy.push(user);
+    return Promise.all([user.save(), house.save()]);
+}
 
 module.exports = {
     createHouse,
@@ -46,4 +58,5 @@ module.exports = {
     getHouseById,
     editHouse,
     deleteHouse,
+    bookHouse
 }

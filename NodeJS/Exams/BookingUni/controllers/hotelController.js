@@ -117,9 +117,6 @@ router.post('/edit/:id', isUser(), async (req, res) => {
 
 router.get('/book/:id', isUser(), async (req, res) => {
     try {
-
-
-
         await req.storage.bookHotel(req.params.id, req.user._id);
 
         res.redirect('/hotels/details/' + req.params.id);

@@ -115,4 +115,15 @@ router.get('/delete/:id', isUser(), async (req, res) => {
     }
 });
 
+router.get('/book/:id', isUser(), async (req, res)=> {
+    try{
+        await req.storage.bookHouse(req.params.id, req.user._id);
+
+        res.redirect('/houses/details/' + req.params.id);
+    }catch(err){
+        console.log(err.message);
+        res.redirect('/');
+    }
+});
+
 module.exports = router;
