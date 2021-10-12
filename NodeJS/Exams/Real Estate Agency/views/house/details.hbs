@@ -30,8 +30,8 @@
             <div class="product-btn">
                 <!-- Only for registered user and creator of the housing offer-->
                 {{#if house.isAuthor}}
-                <a href="#" class="edit">Edit</a>
-                <a href="#" class="remove">Delete</a>
+                <a href="/houses/edit/{{house._id}}" class="edit">Edit</a>
+                <a href="/houses/delete/{{house._id}}" class="remove">Delete</a>
                 {{else}}
 
                 <!-- logged in user with available pieces-->

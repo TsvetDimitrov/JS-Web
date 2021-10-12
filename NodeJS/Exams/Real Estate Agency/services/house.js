@@ -1,3 +1,4 @@
+const Hotel = require('../../BookingUni/models/Hotel');
 const House = require('../models/House');
 const User = require('../models/User');
 
@@ -23,10 +24,16 @@ async function getHouseById(id) {
 async function editHouse(id, houseData) {
     const house = await House.findById(id);
 
-    //...//
+    house.name = houseData.name;
+    house.type = houseData.type;
+    house.year = houseData.year;
+    house.city = houseData.city;
+    house.imageUrl = houseData.imageUrl;
+    house.description = houseData.description;
+    house.pieces = houseData.pieces;
 
 
-    return house;
+    return house.save();
 }
 
 async function deleteHouse(id) {

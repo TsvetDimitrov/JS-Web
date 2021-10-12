@@ -66,4 +66,38 @@ router.get('/details/:id', async (req, res) => {
     }
 });
 
+
+router.get('/edit/:id', isUser(), async (req, res) => {
+    try {
+        const house = await req.storage.getHouseById(req.params.id);
+
+        if (req.user._id != house.owner) {
+            throw new Error('Cannot edit house you havent\'t created!');
+        }
+
+        res.render('house/edit', { house })
+
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/');
+    }
+});
+
+router.post('/edit/:id', isUser(), async (req, res) => {
+    try {
+        const house = await req.storage.getHouseById(req.params.id);
+
+        if (req.user._id != house.owner) {
+            throw new Error('Cannot edit house you havent\'t created!');
+        }
+
+
+        await req.storage.editHouse(req.params.id, req.body);
+        res.redirect('/');
+    } catch (err) {
+        console.log(err.message);
+
+    }
+});
+
 module.exports = router;
