@@ -4,7 +4,7 @@ const { isGuest } = require('../middlewares/guards');
 
 
 router.get('/register', isGuest(), (req, res) => {
-    res.render('register');
+    res.render('user/register');
 });
 
 router.post('/register',
@@ -38,7 +38,7 @@ router.post('/register',
 
     });
 router.get('/login', isGuest(), (req, res) => {
-    res.render('login');
+    res.render('user/login');
 });
 
 router.post('/login', isGuest(), async (req, res) => {

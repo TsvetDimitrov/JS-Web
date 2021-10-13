@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Document</title>
 </head>
 
@@ -27,36 +27,36 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Guest users and Logged users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Shared Trips</a>
+                    <a class="nav-link" href="/trips">Shared Trips</a>
                 </li>
                 <!-- Logged users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="">Offer Trip</a>
+                    <a class="nav-link" href="/trips/create">Offer Trip</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Profile</a>
+                    <a class="nav-link" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Logout as [ test@abv.bg ]</a>
+                    <a class="nav-link" href="/auth/logout">Logout as [ test@abv.bg ]</a>
                 </li>
                 <!-- Guest users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="">Login</a>
+                    <a class="nav-link" href="/auth/login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Register</a>
+                    <a class="nav-link" href="/auth/register">Register</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<body>
-    {{{body}}}
-</body>
+
+{{{body}}}
+
 
 
 <footer id="sticky-footer" class="bg-dark">
