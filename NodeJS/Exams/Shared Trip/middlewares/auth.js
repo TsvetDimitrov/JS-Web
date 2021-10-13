@@ -57,7 +57,8 @@ async function login(email, password) {
 function generateToken(userData) {
     return jwt.sign({
         _id: userData._id,
-        email: userData.email
+        email: userData.email,
+        gender: userData.gender
     }, TOKEN_SECRET);
 }
 
@@ -69,6 +70,7 @@ function parseToken(req, res) {
         try {
             const userData = jwt.verify(token, TOKEN_SECRET);
             req.user = userData;
+            res.locals.user = userData;
 
             return true;
         } catch (err) {
