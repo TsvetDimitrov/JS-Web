@@ -1,10 +1,9 @@
 const { Schema, model } = require('mongoose');
 
 const schema = new Schema({
-    username: { type: String, required: [true, 'Username is required!'] },
     email: { type: String, required: [true, 'Email is required!'] },
-    gender: { type: String, required: true },
-    hashedPassword: { type: String, required: true },
+    gender: { type: String, required: [true, 'Gender is required!'] },
+    hashedPassword: { type: String, required: [true, 'Password is required!'] },
     tripHistory: [{ type: Schema.Types.ObjectId, ref: 'Trip', default: [] }]
 });
 

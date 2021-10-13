@@ -7,12 +7,12 @@ const userService = require('../services/user');
 module.exports = () => (req, res, next) => {
     if (parseToken(req, res)) {
         req.auth = {
-            async register(username, password) {
-                const token = await register(username, password);
+            async register(email, gender, password) {
+                const token = await register(email, gender, password);
                 res.cookie(COOKIE_NAME, token);
             },
-            async login(username, password) {
-                const token = await login(username, password);
+            async login(email, password) {
+                const token = await login(email, password);
                 res.cookie(COOKIE_NAME, token);
             },
             logout() {
@@ -24,22 +24,22 @@ module.exports = () => (req, res, next) => {
 };
 
 
-async function register(username, password) {
-    const existing = await userService.getUserByUsername(username);
+async function register(email, gender, password) {
+    const existing = await userService.getUserByEmail(email);
 
     if (existing) {
-        throw new Error('Username is taken!');
+        throw new Error('Email is taken!');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userService.createUser(username, hashedPassword);
+    const user = await userService.createUser(email, gender, hashedPassword);
 
     return generateToken(user);
 }
 
 
-async function login(username, password) {
-    const user = await userService.getUserByUsername(username);
+async function login(email, password) {
+    const user = await userService.getUserByEmail(email);
 
     if (!user) {
         throw new Error('No such user');
@@ -54,15 +54,10 @@ async function login(username, password) {
     return generateToken(user);
 }
 
-function logout() {
-
-}
-
-
 function generateToken(userData) {
     return jwt.sign({
         _id: userData._id,
-        username: userData.username
+        email: userData.email
     }, TOKEN_SECRET);
 }
 

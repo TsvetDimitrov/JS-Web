@@ -42,6 +42,7 @@ router.post('/register',
         }
 
     });
+    
 router.get('/login', isGuest(), (req, res) => {
     res.render('user/login');
 });
