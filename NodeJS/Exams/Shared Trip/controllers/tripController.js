@@ -54,5 +54,23 @@ router.post('/create', isUser(), async (req, res) => {
     }
 });
 
+
+router.get('/details/:id', isUser(), async (req, res) => {
+    try {
+
+
+        const trip = await req.storage.getTripById(req.params.id);
+        trip.hasUser = Boolean(req.user);
+        trip.isAuthor = req.user && req.user._id == trip.owner;
+        trip.isBooked = req.user && trip.buddies.find(x => x == req.user._id);
+        trip.authorMail = res.locals.user.email;
+        console.log(trip);
+        res.render('trip/details', { trip });
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/404');
+    }
+});
+
 module.exports = router;
 

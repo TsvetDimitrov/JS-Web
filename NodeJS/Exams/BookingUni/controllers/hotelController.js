@@ -57,10 +57,8 @@ router.get('/details/:id', async (req, res) => {
         res.render('hotel/details', { hotel });
     } catch (err) {
         console.log(err.message);
-        res.redirect('/404')
+        res.redirect('/404');
     }
-
-
 });
 
 
