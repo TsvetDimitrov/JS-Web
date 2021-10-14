@@ -57,18 +57,56 @@ router.post('/create', isUser(), async (req, res) => {
 
 router.get('/details/:id', isUser(), async (req, res) => {
     try {
-
-
         const trip = await req.storage.getTripById(req.params.id);
         trip.hasUser = Boolean(req.user);
         trip.isAuthor = req.user && req.user._id == trip.owner;
         trip.isBooked = req.user && trip.buddies.find(x => x == req.user._id);
         trip.authorMail = res.locals.user.email;
-        console.log(trip);
         res.render('trip/details', { trip });
     } catch (err) {
         console.log(err.message);
         res.redirect('/404');
+    }
+});
+
+
+
+router.post('/edit/:id', isUser(), async (req, res) => {
+    try {
+        const trip = await req.storage.getTripById(req.params.id);
+        if (req.user._id != trip.owner) {
+            throw new Error('Cannot edit trip you havent\'t created!');
+        }
+
+        await req.storage.editTrip(req.params.id, req.body);
+        res.redirect('/trips');
+    } catch (err) {
+        console.log(err.message);
+
+        let errors;
+        if (err.errors) {
+            errors = Object.values(err.errors).map(e => e.properties.message);
+        } else {
+            errors = [err.message];
+        }
+
+        const ctx = {
+            errors,
+            trip: {
+                _id: req.params.id,
+                startPoint: req.body.startPoint,
+                endPoint: req.body.endPoint,
+                date: req.body.date,
+                time: req.body.time,
+                imageUrl: req.body.imageUrl,
+                brand: req.body.brand,
+                seats: req.body.seats,
+                price: req.body.price,
+                description: req.body.description,
+            }
+        }
+
+        res.render('trip/edit', ctx);
     }
 });
 
