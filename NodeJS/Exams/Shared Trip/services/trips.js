@@ -23,7 +23,7 @@ async function editTrip(id, tripData) {
     const trip = await Trip.findById(id);
 
     trip.startPoint = tripData.startPoint;
-    trip.endPoint = tripData.startPoint;
+    trip.endPoint = tripData.endPoint;
     trip.date = tripData.date;
     trip.time = tripData.time;
     trip.imageUrl = tripData.imageUrl;

@@ -69,6 +69,21 @@ router.get('/details/:id', isUser(), async (req, res) => {
     }
 });
 
+router.get('/edit/:id', isUser(), async (req, res) => {
+    try {
+        const trip = await req.storage.getTripById(req.params.id);
+
+        if (req.user._id != trip.owner) {
+            throw new Error('Cannot edit trip you havent\'t created!');
+        }
+        console.log(trip);
+
+        res.render('trip/edit', { trip });
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/trips');
+    }
+});
 
 
 router.post('/edit/:id', isUser(), async (req, res) => {
