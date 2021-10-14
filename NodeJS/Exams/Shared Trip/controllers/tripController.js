@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const { isUser } = require('../middlewares/guards');
 
+const userService = require('../services/user');
+
 router.get('/create', isUser(), (req, res) => {
     res.render('trip/create');
 });
@@ -58,10 +60,14 @@ router.post('/create', isUser(), async (req, res) => {
 router.get('/details/:id', isUser(), async (req, res) => {
     try {
         const trip = await req.storage.getTripById(req.params.id);
+        const author = await userService.getUserById(trip.owner);
+
         trip.hasUser = Boolean(req.user);
         trip.isAuthor = req.user && req.user._id == trip.owner;
         trip.isBooked = req.user && trip.buddies.find(x => x == req.user._id);
-        trip.authorMail = res.locals.user.email;
+        trip.authorMail = author.email;
+
+        console.log(trip);
         res.render('trip/details', { trip });
     } catch (err) {
         console.log(err.message);
@@ -122,6 +128,14 @@ router.post('/edit/:id', isUser(), async (req, res) => {
         }
 
         res.render('trip/edit', ctx);
+    }
+});
+
+router.get('/reserve/:id', isUser(), async (req, res) => {
+    try{
+        await req.storage.reserveTrip(req.params.id, req.user._id);
+    }catch(err){
+        console.log(err.message);
     }
 });
 

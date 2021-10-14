@@ -39,6 +39,20 @@ async function deleteTrip(id) {
     return Trip.findByIdAndDelete(id);
 }
 
+async function reserveTrip(tripId, userId) {
+    const trip = await Trip.findById(tripId);
+    const user = await User.findById(userId);
+
+    if (user._id == trip.owner) {
+        throw new Error('You cannot book your own trip!');
+    }
+
+    user.tripHistory.push(tripId);
+    trip.buddies.push(user);
+
+    return Promise.all([user.save(), trip.save()]);
+}
+
 module.exports = {
     createTrip,
     getAllTrips,
