@@ -22,6 +22,15 @@ async function getTripById(id) {
 async function editTrip(id, tripData) {
     const trip = await Trip.findById(id);
 
+    trip.startPoint = tripData.startPoint;
+    trip.endPoint = tripData.startPoint;
+    trip.date = tripData.date;
+    trip.time = tripData.time;
+    trip.imageUrl = tripData.imageUrl;
+    trip.brand = tripData.brand;
+    trip.seats = tripData.seats;
+    trip.price = tripData.price;
+    trip.description = tripData.description;
 
     return trip.save();
 }
