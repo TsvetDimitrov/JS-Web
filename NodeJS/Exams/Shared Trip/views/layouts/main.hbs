@@ -11,7 +11,10 @@
 
 {{#if errors}}
 <div class="error">
-    <p>{{errors}}</p>
+    {{#each errors}}
+    <p>{{this}}</p>
+
+    {{/each}}
 </div>
 {{/if}}
 

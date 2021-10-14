@@ -10,7 +10,7 @@ router.get('/register', isGuest(), (req, res) => {
 router.post('/register',
     isGuest(),
     body('email', 'Invalid email').isEmail(),
-    body('password').isLength({ min: 2 }).withMessage('Password must be at least 2 characters long').bail(),
+    body('password').isLength({ min: 2 }).withMessage('Password must be at least 2 characters long').bail(), //Change the passwrod length to 4 chars as required!
     body('rePass').custom((value, { req }) => {
         if (value != req.body.password) {
             throw new Error('Passwords don\'t match');
