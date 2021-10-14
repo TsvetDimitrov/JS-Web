@@ -129,7 +129,7 @@ router.get('/delete/:id', isUser(), async (req, res) => {
         const hotel = await req.storage.getHotelById(req.params.id);
 
         if (hotel.owner != req.user._id) {
-            throw new Error('Cannot delete play you have\'nt created');
+            throw new Error('Cannot delete trip you have\'nt created');
         }
 
         await req.storage.deleteHotel(req.params.id);

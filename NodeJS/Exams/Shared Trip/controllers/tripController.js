@@ -125,5 +125,20 @@ router.post('/edit/:id', isUser(), async (req, res) => {
     }
 });
 
+router.get('/delete/:id', isUser(), async (req, res) => {
+    try{
+        const trip = await req.storage.getTripById(req.params.id);
+
+        if(trip.owner != req.user._id){
+            throw new Error('Cannot delete trip you have\'nt created');
+        }
+
+        await req.storage.deleteTrip(req.params.id);
+        res.redirect('/trips');
+    }catch(err){
+        console.log(err.message);
+    }
+});
+
 module.exports = router;
 
