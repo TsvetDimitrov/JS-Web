@@ -67,6 +67,9 @@ router.get('/details/:id', isUser(), async (req, res) => {
         trip.isBooked = req.user && trip.buddies.find(x => x == req.user._id);
         trip.authorMail = author.email;
 
+        const tripBookedBy = await userService.getUserById(trip.isBooked);
+        console.log(tripBookedBy);
+        console.log(trip);
         res.render('trip/details', { trip });
     } catch (err) {
         console.log(err.message);
@@ -131,24 +134,27 @@ router.post('/edit/:id', isUser(), async (req, res) => {
 });
 
 router.get('/reserve/:id', isUser(), async (req, res) => {
-    try{
+    try {
         await req.storage.reserveTrip(req.params.id, req.user._id);
-    }catch(err){
+
+        res.redirect('/trips/details/' + req.params.id);
+
+    } catch (err) {
         console.log(err.message);
     }
 });
 
 router.get('/delete/:id', isUser(), async (req, res) => {
-    try{
+    try {
         const trip = await req.storage.getTripById(req.params.id);
 
-        if(trip.owner != req.user._id){
+        if (trip.owner != req.user._id) {
             throw new Error('Cannot delete trip you have\'nt created');
         }
 
         await req.storage.deleteTrip(req.params.id);
         res.redirect('/trips');
-    }catch(err){
+    } catch (err) {
         console.log(err.message);
     }
 });
