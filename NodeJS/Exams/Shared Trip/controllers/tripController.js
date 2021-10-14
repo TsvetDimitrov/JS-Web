@@ -67,8 +67,14 @@ router.get('/details/:id', isUser(), async (req, res) => {
         trip.isBooked = req.user && trip.buddies.find(x => x == req.user._id);
         trip.authorMail = author.email;
 
-        const tripBookedBy = await userService.getUserById(trip.isBooked);
-        console.log(tripBookedBy);
+
+        const reservedBy = [];
+        for (let i = 0; i < trip.buddies.length; i++) {
+            const tripBookedBy = await userService.getUserById(trip.buddies[i]);
+            reservedBy.push(tripBookedBy.email);
+        }
+        trip.reservedBy = reservedBy;
+        // console.log(trip.buddie);
         console.log(trip);
         res.render('trip/details', { trip });
     } catch (err) {

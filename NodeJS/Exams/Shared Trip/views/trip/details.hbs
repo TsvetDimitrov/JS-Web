@@ -18,7 +18,7 @@
                 <div>
                     {{#if trip.buddies}}
                     <!-- if there are joined buddies for the current trip separate them with comma and space", " -->
-                    {{#each trip.buddies}}
+                    {{#each trip.reservedBy}}
 
                     <p>{{this}}</p>
                     {{/each}}
