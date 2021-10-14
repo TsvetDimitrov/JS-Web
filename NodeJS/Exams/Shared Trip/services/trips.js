@@ -59,4 +59,5 @@ module.exports = {
     getTripById,
     editTrip,
     deleteTrip,
+    reserveTrip
 }

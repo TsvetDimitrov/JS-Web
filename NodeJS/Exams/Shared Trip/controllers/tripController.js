@@ -67,7 +67,6 @@ router.get('/details/:id', isUser(), async (req, res) => {
         trip.isBooked = req.user && trip.buddies.find(x => x == req.user._id);
         trip.authorMail = author.email;
 
-        console.log(trip);
         res.render('trip/details', { trip });
     } catch (err) {
         console.log(err.message);
