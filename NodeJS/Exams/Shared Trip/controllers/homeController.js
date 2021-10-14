@@ -7,7 +7,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/trips', async (req, res) => {
-    
+    const trips = await req.storage.getAllTrips();
+
+    res.render('shared-trips', { trips });
 });
 
 module.exports = router;
