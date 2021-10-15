@@ -4,7 +4,7 @@ const { isGuest } = require('../middlewares/guards');
 
 
 router.get('/register', isGuest(), (req, res) => {
-    res.render('register');
+    res.render('user/register');
 });
 
 router.post('/register',
