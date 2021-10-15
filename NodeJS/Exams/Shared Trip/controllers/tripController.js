@@ -74,11 +74,8 @@ router.get('/details/:id', async (req, res) => {
         }
 
         trip.reservedBy = reservedBy;
-        console.log(trip.seats);
         trip.seats -= trip.reservedBy.length;
-        console.log('HEREEEEE', trip.reservedBy.length);
 
-        console.log(trip);
         res.render('trip/details', { trip });
     } catch (err) {
         console.log(err.message);
