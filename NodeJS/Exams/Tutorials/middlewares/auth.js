@@ -54,10 +54,6 @@ async function login(username, password) {
     return generateToken(user);
 }
 
-function logout() {
-
-}
-
 
 function generateToken(userData) {
     return jwt.sign({

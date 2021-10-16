@@ -55,7 +55,7 @@ router.post('/login', isGuest(), async (req, res) => {
                 username: req.body.username
             }
         }
-    res.render('login', ctx);
+    res.render('user/login', ctx);
 
     }
 
