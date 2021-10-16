@@ -39,7 +39,7 @@ router.post('/register',
 
     });
 router.get('/login', isGuest(), (req, res) => {
-    res.render('login');
+    res.render('user/login');
 });
 
 router.post('/login', isGuest(), async (req, res) => {
