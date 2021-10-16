@@ -20,7 +20,8 @@ router.post('/register',
         const { errors } = validationResult(req);
         try {
             if (errors.length > 0) {
-                throw new Error('Validation error');
+                const message = errors.map(e => e.msg).join('\n');
+                throw new Error(message);
             }
             await req.auth.register(req.body.username, req.body.password);
 
@@ -28,12 +29,12 @@ router.post('/register',
         } catch (err) {
             console.log(err);
             const ctx = {
-                errors,
+                errors: err.message.split('\n'),
                 userData: {
                     username: req.body.username
                 }
             }
-            res.render('register', ctx);
+            res.render('user/register', ctx);
         }
 
     });
