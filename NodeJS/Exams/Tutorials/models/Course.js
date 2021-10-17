@@ -6,7 +6,7 @@ const schema = new Schema({
     description: { type: String, required: [true, 'Description field is required!'], maxlength: [50, 'Description must be 50 chars max.'] },
     imageUrl: { type: String, required: [true, 'ImageUrl field is required!'] },
     duration: { type: String, required: [true, 'Duration field is required!'] },
-    createdAt: { type: String, type: Date, required: [true, 'Duration field is required!'] },
+    createdAt: { type: String, required: [true, 'createdAt field is required!'] },
     enrolledUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
