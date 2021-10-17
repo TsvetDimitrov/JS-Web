@@ -90,7 +90,6 @@ router.get('/edit/:id', isUser(), async (req, res) => {
         if (req.user._id != trip.owner) {
             throw new Error('Cannot edit trip you havent\'t created!');
         }
-        console.log(trip);
 
         res.render('trip/edit', { trip });
     } catch (err) {
