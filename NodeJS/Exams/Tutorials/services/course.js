@@ -37,11 +37,26 @@ async function deleteCourse(id) {
     return Course.findByIdAndDelete(id);
 }
 
+async function enrollCourse(courseId, userId) {
+    const course = await Course.findById(courseId);
+    const user = await User.findById(userId);
+
+    if (user._id == course.owner) {
+        throw new Error('You cannot enroll in your own course!');
+    }
+
+    user.courses.push(courseId);
+    course.enrolledUsers.push(userId);
+
+    return Promise.all([user.save(), course.save()]);
+}
+
 
 module.exports = {
     createCourse,
     getAllCourses,
     getCourseById,
     deleteCourse,
-    editCourse
+    editCourse,
+    enrollCourse
 }

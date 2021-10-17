@@ -139,4 +139,13 @@ router.get('/delete/:id', isUser(), async (req, res) => {
     }
 });
 
+router.get('/enroll/:id', isUser(), async(req, res) => {
+    try{
+        await req.storage.enrollCourse(req.params.id, req.user._id);
+
+        res.redirect('/courses/details/' + req.params.id);
+    }catch(err){
+        console.log(err.message);
+    }
+});
 module.exports = router;
