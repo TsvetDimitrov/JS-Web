@@ -8,6 +8,7 @@ const schema = new Schema({
     duration: { type: String, required: [true, 'Duration field is required!'] },
     createdAt: { type: String, required: [true, 'createdAt field is required!'] },
     enrolledUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
 module.exports = model('Course', schema);

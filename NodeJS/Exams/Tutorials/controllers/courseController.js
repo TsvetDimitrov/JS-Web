@@ -9,7 +9,7 @@ router.get('/create', isUser(), (req, res) => {
 
 router.post('/create', isUser(), async (req, res) => {
     let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     console.log(date)
     const courseData = {
         title: req.body.title,
@@ -46,6 +46,22 @@ router.post('/create', isUser(), async (req, res) => {
         }
         res.render('course/create', ctx);
 
+    }
+});
+
+
+router.get('/details/:id', isUser(), async (req, res) => {
+    try {
+        const course = await req.storage.getCourseById(req.params.id);
+        course.isAuthor = req.user && req.user._id == course.owner;
+        course.isBooked = req.user && course.enrolledUsers.find(x => x == req.user._id);
+        console.log(course);
+        res.render('course/details', course);
+
+    } catch (err) {
+        console.log(err.message);
+
+        res.redirect('/404');
     }
 });
 
