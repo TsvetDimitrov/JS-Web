@@ -9,8 +9,11 @@ router.get('/register', isGuest(), (req, res) => {
 
 router.post('/register',
     isGuest(),
-    body('username').isLength({ min: 3 }).withMessage('Username must be atleast 3 characters long!'),
     body('rePass').custom((value, { req }) => {
+        if(req.body.password.length < 5){
+            throw new Error('Password should be atleast 5 chars!');
+        }
+
         if (value != req.body.password) {
             throw new Error('Passwords don\'t match');
         }
