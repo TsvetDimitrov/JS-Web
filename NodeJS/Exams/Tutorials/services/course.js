@@ -51,6 +51,14 @@ async function enrollCourse(courseId, userId) {
     return Promise.all([user.save(), course.save()]);
 }
 
+async function search(text) {
+    let result = await Course.find({}).lean();
+    result = result.filter(x => x.title.toLowerCase().includes(text.toLowerCase()));
+
+    return result;
+
+}
+
 
 module.exports = {
     createCourse,
@@ -58,5 +66,6 @@ module.exports = {
     getCourseById,
     deleteCourse,
     editCourse,
-    enrollCourse
+    enrollCourse,
+    search
 }
