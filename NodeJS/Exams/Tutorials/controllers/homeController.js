@@ -6,11 +6,10 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/search', async (req, res) => {
-    let { search } = req.query;
-    console.log(req.query)
-    let courses = await req.storage.search(search);
+    let { searchText } = req.query;
+    let courses = await req.storage.search(searchText);
 
-    res.render('home/home', { courses, search });
+    res.render('home/home', { courses, searchText });
 });
 
 
