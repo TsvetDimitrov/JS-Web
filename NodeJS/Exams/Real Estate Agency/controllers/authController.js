@@ -10,7 +10,8 @@ router.get('/register', isGuest(), (req, res) => {
 router.post('/register',
     isGuest(),
     body('name').matches(/^[A-Z][a-z]+\s[A-Z][a-z]+$/).withMessage('Name not content the correct sign'),
-    body('username').isLength({ min: 3 }).withMessage('Username must be atleast 3 characters long!'),
+    body('username').isLength({ min: 5 }).withMessage('Username must be atleast 5 characters long!'),
+    body('password').isLength({min: 4}).withMessage('Password must be atleast 4 characters long!'),
     body('rePass').custom((value, { req }) => {
         console.log(value);
         if (value != req.body.password) {

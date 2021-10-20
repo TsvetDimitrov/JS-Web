@@ -69,7 +69,6 @@ router.get('/details/:id', async (req, res) => {
         if(house.renters.length > 0){
             house.isRented = true;
         }
-        console.log(house);
         res.render('house/details', { house });
     } catch (err) {
         console.log(err.message);
@@ -140,7 +139,7 @@ router.get('/book/:id', isUser(), async (req, res) => {
         if (req.user._id == house.owner) {
             throw new Error('You cannot book your own house!');
         }
-
+        house.pieces--;
         await req.storage.bookHouse(req.params.id, req.user._id);
 
         res.redirect('/houses/details/' + req.params.id);
