@@ -12,13 +12,16 @@
     <section id="top-houses">
         <h1>Top Houses</h1>
         <div class="houses">
-            {{#each houses}}
+            {{#if topHouses}}
+            {{#each topHouses}}
             {{> house}}
+            {{/each}}
+
             {{else}}
             <div class="no-data-container">
                 <p class="no-data">There are no housing offers found...</p>
             </div>
-            {{/each}}
+            {{/if}}
         </div>
     </section>
 </main>
