@@ -52,11 +52,17 @@ async function bookHouse(houseId, userId) {
     return Promise.all([user.save(), house.save()]);
 }
 
+async function getLast3Houses() {
+    const top3houses = await House.find().sort({ createdAt: -1 }).limit(3).lean();
+    return top3houses;
+}
+
 module.exports = {
     createHouse,
     getAllHouses,
     getHouseById,
     editHouse,
     deleteHouse,
-    bookHouse
+    bookHouse,
+    getLast3Houses
 }
