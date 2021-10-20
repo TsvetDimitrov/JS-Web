@@ -3,7 +3,7 @@ function isUser() {
         if (req.user) {
             next();
         } else {
-            res.redirect('/auth/login');
+            res.render('404');
         }
     }
 }
@@ -14,7 +14,7 @@ function isGuest() {
         if (!req.user) {
             next();
         } else {
-            res.redirect('/');
+            res.render('404');
         }
     }
 }

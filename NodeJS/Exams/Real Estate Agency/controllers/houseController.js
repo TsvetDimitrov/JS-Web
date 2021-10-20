@@ -130,9 +130,6 @@ router.get('/book/:id', isUser(), async (req, res) => {
             throw new Error('You cannot book your own house!');
         }
 
-
-
-
         await req.storage.bookHouse(req.params.id, req.user._id);
 
         res.redirect('/houses/details/' + req.params.id);
@@ -142,7 +139,7 @@ router.get('/book/:id', isUser(), async (req, res) => {
         const ctx = {
             errors: [err.message]
         }
-        res.render('home/home', ctx);
+        res.render('404', ctx);
     }
 });
 
