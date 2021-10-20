@@ -13,4 +13,10 @@ const schema = new Schema({
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 
+
+// schema.method('getTenants', function() {
+//     return this.rentedBy.map(x => x.name).join(', ');
+// });
+
+
 module.exports = model("House", schema);

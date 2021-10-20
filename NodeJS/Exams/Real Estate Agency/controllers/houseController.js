@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { isUser } = require('../middlewares/guards');
 
+const {getUserById} = require('../services/user');
+
 router.get('/create', isUser(), (req, res) => {
     res.render('house/create')
 });
@@ -54,11 +56,20 @@ router.get('/details/:id', async (req, res) => {
     try {
 
         const house = await req.storage.getHouseById(req.params.id);
-
+        
         house.hasUser = Boolean(req.user);
         house.isAuthor = req.user && req.user._id == house.owner;
-        house.isRented = req.user && house.rentedBy.find(x => x == req.user._id);
-
+       // house.isRented = req.user && house.rentedBy.find(x => x == req.user._id);
+        let names = [];
+        for(let i = 0; i < house.rentedBy.length; i++){
+            let name = await getUserById(house.rentedBy[i]);
+            names.push(name.name);
+        }
+        house.renters = names.join(', ');
+        if(house.renters.length > 0){
+            house.isRented = true;
+        }
+        console.log(house);
         res.render('house/details', { house });
     } catch (err) {
         console.log(err.message);

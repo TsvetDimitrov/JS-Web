@@ -15,9 +15,8 @@
                     <!-- if there are already tenants of the housing, separate their names with a comma and a space ", "  -->
                     {{#if house.isRented}}
                     <p>People rented this housing:
-                        {{#each house.rentedBy}}
-                        {{this}}
-                        {{/each}}
+                        {{house.renters}}
+
                     </p>
                     {{else}}
                     <!-- If not display: -->
