@@ -9,7 +9,6 @@ router.get('/', async (req, res) => {
     try {
         const topHouses = await req.storage.getLast3Houses();
 
-        console.log(topHouses);
         res.render('home/home', { topHouses });
     } catch (err) {
         console.log(err.message);

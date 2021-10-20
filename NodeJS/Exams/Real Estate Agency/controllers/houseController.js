@@ -115,14 +115,34 @@ router.get('/delete/:id', isUser(), async (req, res) => {
     }
 });
 
-router.get('/book/:id', isUser(), async (req, res)=> {
-    try{
+router.get('/book/:id', isUser(), async (req, res) => {
+    try {
+        const house = await req.storage.getHouseById(req.params.id);
+
+
+        const isRented = house.rentedBy.find(x => x == req.user._id);
+
+        if (isRented) {
+            throw new Error('You have already rented this house!');
+        }
+
+        if (req.user._id == house.owner) {
+            throw new Error('You cannot book your own house!');
+        }
+
+
+
+
         await req.storage.bookHouse(req.params.id, req.user._id);
 
         res.redirect('/houses/details/' + req.params.id);
-    }catch(err){
+    } catch (err) {
         console.log(err.message);
-        res.redirect('/');
+        console.log(err);
+        const ctx = {
+            errors: [err.message]
+        }
+        res.render('home/home', ctx);
     }
 });
 

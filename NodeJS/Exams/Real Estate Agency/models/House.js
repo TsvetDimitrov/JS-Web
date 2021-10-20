@@ -10,7 +10,7 @@ const schema = new Schema({
     pieces: { type: Number, required: [true, 'Pieces us required'] },
     description: { type: String, required: [true, 'Description is required'] },
     rentedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    owner: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 
 module.exports = model("House", schema);
