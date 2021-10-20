@@ -15,4 +15,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+router.get('/search', (req, res) => {
+    res.render('search');
+
+});
+
+router.post('/search', async (req, res) => {
+
+    const houses = await req.storage.search(req.body.text);
+
+    res.render('search', { houses })
+});
+
 module.exports = router;

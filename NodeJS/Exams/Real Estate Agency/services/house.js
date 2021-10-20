@@ -57,6 +57,10 @@ async function getLast3Houses() {
     return top3houses;
 }
 
+async function search(text) {
+    return House.find({ type: { $regex: text, $options: 'i' } }).lean();
+}
+
 module.exports = {
     createHouse,
     getAllHouses,
@@ -64,5 +68,6 @@ module.exports = {
     editHouse,
     deleteHouse,
     bookHouse,
-    getLast3Houses
+    getLast3Houses,
+    search
 }
