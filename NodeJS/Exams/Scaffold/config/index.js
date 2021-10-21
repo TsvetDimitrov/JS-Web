@@ -4,3 +4,6 @@ module.exports = {
     TOKEN_SECRET: 'this is very secure11',
     COOKIE_NAME: 'SESSION_TOKEN'
 };
+
+
+//EDIT DB CONNECTION STRING TO THE NEW PROJECT
