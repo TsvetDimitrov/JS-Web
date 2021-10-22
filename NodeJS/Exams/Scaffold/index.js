@@ -14,7 +14,7 @@ async function start() {
 
     app.get('/', (req, res) => res.send('It Works!'));
     app.listen(PORT, () => {
-        console.log(`App started at http://localhost:${PORT}`)
+        console.log(`App started at http://localhost:${PORT}`);
     });
 }
 
