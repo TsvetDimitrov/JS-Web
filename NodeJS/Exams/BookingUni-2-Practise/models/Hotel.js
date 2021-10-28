@@ -8,7 +8,7 @@ const schema = new Schema({
     imageUrl: { type: String, required: true },
     freeRooms: { type: Number, required: true },
     bookedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    owner: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }]
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 
