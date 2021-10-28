@@ -59,4 +59,81 @@ router.get('/details/:id', async (req, res) => {
     }
 });
 
+router.get('/delete/:id', isUser(), async (req, res) => {
+    try {
+        const hotel = await req.storage.getHotelById(req.params.id);
+
+        if (hotel.owner != req.user._id) {
+            throw new Error('Cannot delete hotel you have\'nt created');
+        }
+
+        await req.storage.deleteHotel(req.params.id);
+        res.redirect('/');
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+
+router.get('/edit/:id', isUser(), async (req, res) => {
+    try {
+        const hotel = await req.storage.getHotelById(req.params.id);
+
+        if (hotel.owner != req.user._id) {
+            throw new Error('Cannot edit hotel you have\'nt created');
+        }
+
+        res.render('hotel/edit', { hotel });
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/');
+    }
+});
+
+router.post('/edit/:id', async (req, res) => {
+    try {
+        const hotel = await req.storage.getHotelById(req.params.id);
+
+        if (hotel.owner != req.user._id) {
+            throw new Error('Cannot edit hotel you have\'nt created');
+        }
+
+        await req.storage.editHotel(req.params.id, req.body);
+        res.redirect('/');
+    } catch (err) {
+        console.log(err.message);
+
+        let errors;
+        if (err.errors) {
+            errors = Object.values(err.errors).map(e => e.properties.message);
+        } else {
+            errors = [err.message];
+        }
+
+        const ctx = {
+            errors,
+            hotel: {
+                _id: req.params.id,
+                name: req.body.name,
+                city: req.body.city,
+                imageUrl: req.body.imageUrl,
+                rooms: req.body.rooms,
+            }
+        };
+
+        res.render('hotel/edit', ctx)
+    }
+});
+
+
+router.get('/book/:id', isUser(), async(req, res) => {
+    try{        
+        await req.storage.bookHotel(req.params.id, req.user._id);
+
+        res.redirect('/hotels/details/' + req.params.id);
+    }catch(err){
+        console.log(err.message);
+        res.redirect('/');
+    }
+});
 module.exports = router;

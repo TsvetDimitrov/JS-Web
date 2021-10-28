@@ -1,4 +1,5 @@
 const Hotel = require('../models/Hotel');
+const User = require('../models/User');
 
 async function createHotel(hotelData) {
     const hotel = new Hotel(hotelData);
@@ -23,13 +24,24 @@ async function editHotel(id, hotelData) {
 
     hotel.name = hotelData.name;
     hotel.city = hotelData.city;
-    hotel.rooms = hotelData.rooms;
+    hotel.freeRooms = hotelData.rooms;
     hotel.imageUrl = hotelData.imageUrl;
+
+    return hotel.save();
 }
 
 
 async function bookHotel(hotelId, userId) {
+    const hotel = await Hotel.findById(hotelId);
+    const user = await User.findById(userId);
 
+    if (user._id == hotel.owner) {
+        throw new Error('Cannot book your own hotel!');
+    }
+
+    user.bookedHotels.push(hotelId);
+    hotel.bookedBy.push(userId);
+    return Promise.all([user.save(), hotel.save()]);
 }
 
 async function deleteHotel(id) {
@@ -41,5 +53,6 @@ module.exports = {
     getAllHotels,
     getHotelById,
     editHotel,
-    deleteHotel
+    deleteHotel,
+    bookHotel
 }
