@@ -4,7 +4,7 @@ const { isGuest } = require('../middlewares/guards');
 
 
 router.get('/register', isGuest(), (req, res) => {
-    res.render('register');
+    res.render('user/register');
 });
 
 router.post('/register',
@@ -20,25 +20,27 @@ router.post('/register',
         const { errors } = validationResult(req);
         try {
             if (errors.length > 0) {
-                throw new Error('Validation error');
+                const message = errors.map(e => e.msg).join('\n');
+                throw new Error(message);
             }
-            await req.auth.register(req.body.username, req.body.password);
-
+            const res = await req.auth.register(req.body.username, req.body.email, req.body.password);
+            console.log(res);
             res.redirect('/');
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
             const ctx = {
-                errors,
+                errors: err.message.split('\n'),
                 userData: {
-                    username: req.body.username
+                    username: req.body.username,
+                    email: req.body.email
                 }
             }
-            res.render('register', ctx);
+            res.render('user/register', ctx);
         }
-
     });
+
 router.get('/login', isGuest(), (req, res) => {
-    res.render('login');
+    res.render('user/login');
 });
 
 router.post('/login', isGuest(), async (req, res) => {
@@ -54,7 +56,7 @@ router.post('/login', isGuest(), async (req, res) => {
                 username: req.body.username
             }
         }
-    res.render('login', ctx);
+        res.render('user/login', ctx);
 
     }
 

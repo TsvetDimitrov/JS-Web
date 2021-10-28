@@ -30,5 +30,3 @@ module.exports = (app) => {
         next();
     });
 };
-
-//test
