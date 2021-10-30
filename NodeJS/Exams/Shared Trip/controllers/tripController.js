@@ -156,7 +156,7 @@ router.get('/delete/:id', isUser(), async (req, res) => {
         if (trip.owner != req.user._id) {
             throw new Error('Cannot delete trip you have\'nt created');
         }
-
+s
         await req.storage.deleteTrip(req.params.id);
         res.redirect('/trips');
     } catch (err) {

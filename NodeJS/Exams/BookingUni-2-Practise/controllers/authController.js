@@ -23,8 +23,7 @@ router.post('/register',
                 const message = errors.map(e => e.msg).join('\n');
                 throw new Error(message);
             }
-            const res = await req.auth.register(req.body.username, req.body.email, req.body.password);
-            console.log(res);
+             await req.auth.register(req.body.username, req.body.email, req.body.password);
             res.redirect('/');
         } catch (err) {
             console.log(err.message);

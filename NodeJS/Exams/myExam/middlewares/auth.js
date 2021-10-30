@@ -7,12 +7,12 @@ const userService = require('../services/user');
 module.exports = () => (req, res, next) => {
     if (parseToken(req, res)) {
         req.auth = {
-            async register(username, password) {
-                const token = await register(username, password);
+            async register(firstName, lastName, email, password) {
+                const token = await register(firstName, lastName, email, password);
                 res.cookie(COOKIE_NAME, token);
             },
-            async login(username, password) {
-                const token = await login(username, password);
+            async login(firstName, lastName, email, password) {
+                const token = await login(firstName, lastName, email, password);
                 res.cookie(COOKIE_NAME, token);
             },
             logout() {
@@ -24,22 +24,22 @@ module.exports = () => (req, res, next) => {
 };
 
 
-async function register(username, password) {
-    const existing = await userService.getUserByUsername(username);
+async function register(firstName, lastName, email, password) {
+    const existing = await userService.getUserByEmail(email);
 
     if (existing) {
-        throw new Error('Username is taken!');
+        throw new Error('Email is taken!');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userService.createUser(username, hashedPassword);
+    const user = await userService.createUser(firstName, lastName, email, hashedPassword);
 
     return generateToken(user);
 }
 
 
-async function login(username, password) {
-    const user = await userService.getUserByUsername(username);
+async function login(email, password) {
+    const user = await userService.getUserByEmail(email);
 
     if (!user) {
         throw new Error('No such user');
@@ -57,7 +57,9 @@ async function login(username, password) {
 function generateToken(userData) {
     return jwt.sign({
         _id: userData._id,
-        username: userData.username
+        firstName: userData.username,
+        lastName: userData.username,
+        email: userData.email,
     }, TOKEN_SECRET);
 }
 
@@ -69,6 +71,7 @@ function parseToken(req, res) {
         try {
             const userData = jwt.verify(token, TOKEN_SECRET);
             req.user = userData;
+            res.locals.user = userData;
 
             return true;
         } catch (err) {
